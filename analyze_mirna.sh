@@ -8,6 +8,18 @@ for cmd in wget seqkit awk; do
         exit 1
     }
 done
+# --- Configurable organism and gene targets via CLI arguments
+# defaults: cel, let-7|lin-4
+
+ORGANISM="${1:-cel}"
+GENES="${2:-let-7|lin-4}"
+# --- Build the regex pattern dynamically from the two parameters.
+PATTERN=""
+IFS='|' read -ra GENE_LIST <<< "$GENES"
+for gene in "${GENE_LIST[@]}"; do
+    PATTERN+="${ORGANISM}-.*${gene}|"
+done
+PATTERN="${PATTERN%|}"   # strip trailing pipe
 
 # --- CONFIGURATION ---
 DATA_DIR="cel_analysis_v22"
