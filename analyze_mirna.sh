@@ -64,7 +64,7 @@ echo -e "\e[34m[3/4]\e[0m Processing C. elegans sequences..."
 # -i: Ignore case
 # -r: Use regex
 # Pattern: finds any header containing "cel-" followed by "let-7" or "lin-4"
-seqkit grep -i -r -p "cel-.*let-7|cel-.*lin-4" "$INPUT_FILE" | \
+seqkit grep -i -r -p "$PATTERN" "$INPUT_FILE" | \
 seqkit seq --rna2dna | \
 seqkit fx2tab --name --length --gc > "$OUTPUT_FILE"
 
@@ -73,15 +73,38 @@ seqkit fx2tab --name --length --gc > "$OUTPUT_FILE"
 COUNT=$(wc -l < "$OUTPUT_FILE")
 echo -e "Sequences found: $COUNT"
 
+if [ "$COUNT" -eq 0 ]; then
+    echo -e "\e[33mWARNING:\e[0m No sequences matched pattern '$PATTERN'. Check organism prefix and gene names." >&2
+    exit 1
+fi
+
 # --- 5. ANALYSIS & REPORT ---
 echo -e "\e[34m[4/4]\e[0m Generating Summary Statistics..."
-echo -e "\n--- BIOCHEMISTRY REPORT: C. elegans miRNA (miRBase v22) ---"
+echo -e "\n--- BIOCHEMISTRY REPORT: ${ORGANISM} miRNA (miRBase v22) ---"
 echo -e "Generated on: $(date)"
 echo -e "---------------------------------------------------------"
 printf "%-60s %-10s %-10s\n" "Sequence_ID" "Length" "GC_Content"
 
 # Formatting the TSV output for a professional look
 awk -F'\t' '{printf "%-60s %-10s %-10.2f%%\n", $1, $2, $3}' "$OUTPUT_FILE"
+
+# Statistical report. (Mean length and mean GC%)
+
+awk -F'\t' '
+    {
+        printf "%-60s %-10s %-10.2f%%\n", $1, $2, $3
+        total_len += $2
+        total_gc  += $3
+        n++
+    }
+    END {
+        if (n > 0) {
+            printf "\n"
+            printf "%-60s %-10.1f %-10.2f%%\n", "MEAN (n=" n ")", total_len/n, total_gc/n
+        }
+    }
+' "$OUTPUT_FILE"
+
 
 echo -e "---------------------------------------------------------"
 echo -e "\e[32mSUCCESS:\e[0m Static analysis complete."
