@@ -51,6 +51,13 @@ else
     echo -e "\e[32m[2/4]\e[0m $INPUT_FILE already exists. Skipping download."
 fi
 
+# Validate the downloaded file is a real FASTA
+if ! grep -q "^>" "$INPUT_FILE"; then
+    echo "Error: Downloaded file does not appear to be a valid FASTA." >&2
+    rm -f "$INPUT_FILE"
+    exit 1
+fi
+
 # --- 3. FILTER & PROCESS ---
 echo -e "\e[34m[3/4]\e[0m Processing C. elegans sequences..."
 # Filtering, converting to DNA, and outputting Name, Length, and GC%
