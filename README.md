@@ -34,7 +34,7 @@ Bash
 git clone git@github.com:CharlesDexterW/cel-mirna-seqkit-pipeline.git
 
 
-cd miRNA-analysis-pipeline
+cd cel-mirna-seqkit-pipeline
 
 
 Set permissions and run:
