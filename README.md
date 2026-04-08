@@ -31,7 +31,7 @@ Clone the repository:
 
 Bash
 
-git clone https://github.com/your-username/miRNA-analysis-pipeline.git
+git clone git@github.com:CharlesDexterW/cel-mirna-seqkit-pipeline.git
 cd miRNA-analysis-pipeline
 Set permissions and run:
 
