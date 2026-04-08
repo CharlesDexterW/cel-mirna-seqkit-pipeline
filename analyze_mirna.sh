@@ -45,7 +45,7 @@ echo -e "\e[34m[4/4]\e[0m Generating Summary Statistics..."
 echo -e "\n--- BIOCHEMISTRY REPORT: C. elegans miRNA (miRBase v22) ---"
 echo -e "Generated on: $(date)"
 echo -e "---------------------------------------------------------"
-printf "%-60s %-10s %-10s\n" "Sequence_ID" "Length" "GC_Contet"
+printf "%-60s %-10s %-10s\n" "Sequence_ID" "Length" "GC_Content"
 
 # Formatting the TSV output for a professional look
 awk -F'\t' '{printf "%-60s %-10s %-10.2f%%\n", $1, $2, $3}' "$OUTPUT_FILE"
