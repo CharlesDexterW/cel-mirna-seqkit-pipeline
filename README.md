@@ -31,13 +31,19 @@ Clone the repository:
 
 Bash
 
-git clone https://github.com/your-username/miRNA-analysis-pipeline.git
-cd miRNA-analysis-pipeline
+git clone git@github.com:CharlesDexterW/cel-mirna-seqkit-pipeline.git
+
+
+cd cel-mirna-seqkit-pipeline
+
+
 Set permissions and run:
 
 Bash
 
 chmod +x analyze_mirna.sh
+
+
 ./analyze_mirna.sh
 ## Output
 The pipeline generates a directory cel_analysis_v22/ containing:
