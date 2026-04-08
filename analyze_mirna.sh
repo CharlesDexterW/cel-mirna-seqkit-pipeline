@@ -19,7 +19,10 @@ OUTPUT_FILE="cel_mirna_v22_results.tsv"
 # --- 1. SETUP ---
 echo -e "\e[34m[1/4]\e[0m Creating workspace: $DATA_DIR"
 mkdir -p "$DATA_DIR"
-cd "$DATA_DIR" || exit
+BASEDIR="$(pwd)/$DATA_DIR"
+mkdir -p "$BASEDIR"
+INPUT_FILE="$BASEDIR/hairpin.fa"
+OUTPUT_FILE="$BASEDIR/cel_mirna_v22_results.tsv"
 
 # --- 2. DOWNLOAD ---
 if [ ! -s "$INPUT_FILE" ]; then
