@@ -22,9 +22,10 @@ done
 PATTERN="${PATTERN%|}"   # strip trailing pipe
 
 # --- CONFIGURATION ---
-DATA_DIR="cel_analysis_v22"
+DATA_DIR="${ORGANISM}_analysis_v22"
 # Static version 22 URL for reproducibility
 MIRBASE_URL="https://www.mirbase.org/download_version_files/22/hairpin.fa"
+REPORT_FILE="${ORGANISM}_mirna_v22_report.md"   # markdown export (see step 6)
 INPUT_FILE="hairpin.fa"
 OUTPUT_FILE="cel_mirna_v22_results.tsv"
 
@@ -35,6 +36,11 @@ BASEDIR="$(pwd)/$DATA_DIR"
 mkdir -p "$BASEDIR"
 INPUT_FILE="$BASEDIR/hairpin.fa"
 OUTPUT_FILE="$BASEDIR/cel_mirna_v22_results.tsv"
+REPORT_PATH="$BASEDIR/$REPORT_FILE"
+
+echo -e "       Organism : $ORGANISM"
+echo -e "       Targets  : $GENES"
+echo -e "       Pattern  : $PATTERN"
 
 # --- 2. DOWNLOAD ---
 if [ ! -s "$INPUT_FILE" ]; then
