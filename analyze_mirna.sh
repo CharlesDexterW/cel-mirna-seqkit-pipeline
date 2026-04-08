@@ -105,6 +105,42 @@ awk -F'\t' '
     }
 ' "$OUTPUT_FILE"
 
-
+echo -e "\e[34m[5/6]\e[0m Exporting Markdown report to $REPORT_PATH..."
+ 
+# Compute aggregate values for the report header
+read AVG_LEN AVG_GC < <(awk -F'\t' '
+    { total_len += $2; total_gc += $3; n++ }
+    END { printf "%.1f %.2f\n", total_len/n, total_gc/n }
+' "$OUTPUT_FILE")
+ 
+cat > "$REPORT_PATH" <<MARKDOWN
+# miRNA Analysis Report
+ 
+| Field        | Value                        |
+|--------------|------------------------------|
+| Organism     | \`$ORGANISM\`                |
+| Gene targets | \`$GENES\`                   |
+| miRBase ver. | v22                          |
+| Generated    | $(date)                      |
+| Sequences    | $COUNT                       |
+| Mean length  | ${AVG_LEN} nt                |
+| Mean GC%     | ${AVG_GC}%                   |
+ 
+## Sequence Table
+ 
+| Sequence ID | Length (nt) | GC% |
+|-------------|-------------|-----|
+$(awk -F'\t' '{printf "| %-58s | %-11s | %-10.2f%% |\n", $1, $2, $3}' "$OUTPUT_FILE")
+ 
+## Notes
+ 
+- Sequences filtered from miRBase v22 \`hairpin.fa\` using pattern: \`$PATTERN\`
+- RNA sequences converted to DNA (\`U → T\`) prior to metric extraction.
+- GC% calculated by SeqKit \`fx2tab\`.
+MARKDOWN
+ 
+echo -e "\e[34m[6/6]\e[0m Done."
 echo -e "---------------------------------------------------------"
-echo -e "\e[32mSUCCESS:\e[0m Static analysis complete."
+echo -e "\e[32mSUCCESS:\e[0m Analysis complete."
+echo -e "  TSV data : $OUTPUT_FILE"
+echo -e "  Report   : $REPORT_PATH"
