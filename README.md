@@ -42,6 +42,8 @@ Set permissions and run:
 Bash
 
 chmod +x analyze_mirna.sh
+
+
 ./analyze_mirna.sh
 ## Output
 The pipeline generates a directory cel_analysis_v22/ containing:
