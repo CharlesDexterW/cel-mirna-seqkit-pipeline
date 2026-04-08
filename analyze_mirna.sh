@@ -43,7 +43,12 @@ seqkit grep -i -r -p "cel-.*let-7|cel-.*lin-4" "$INPUT_FILE" | \
 seqkit seq --rna2dna | \
 seqkit fx2tab --name --length --gc > "$OUTPUT_FILE"
 
-# --- 4. ANALYSIS & REPORT ---
+# --- 4. Sequence Count
+
+COUNT=$(wc -l < "$OUTPUT_FILE")
+echo -e "Sequences found: $COUNT"
+
+# --- 5. ANALYSIS & REPORT ---
 echo -e "\e[34m[4/4]\e[0m Generating Summary Statistics..."
 echo -e "\n--- BIOCHEMISTRY REPORT: C. elegans miRNA (miRBase v22) ---"
 echo -e "Generated on: $(date)"
