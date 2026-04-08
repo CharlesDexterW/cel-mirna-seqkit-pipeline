@@ -19,16 +19,16 @@ The script automates the extraction of these precursors, converts the RNA sequen
 
 **Configurable Organism and Gene Targets:** The pipeline now accepts two optional command-line arguments, replacing the hardcoded C. elegans pattern. Any organism prefix and any set of gene targets available in miRBase can be queried without editing the script.
 
-# Default behaviour (unchanged): C. elegans, let-7 and lin-4
+**Default behaviour (unchanged): C. elegans, let-7 and lin-4**
 ./analyze_mirna.sh
 
-# Human (hsa), default gene targets
+**Human (hsa), default gene targets**
 ./analyze_mirna.sh hsa
 
-# Human, custom gene panel
+**Human, custom gene panel**
 ./analyze_mirna.sh hsa "mir-21|mir-155|mir-122"
 
-# Drosophila, single gene
+**Drosophila, single gene**
 ./analyze_mirna.sh dme "bantam"
 
 The terminal report and the exported Markdown file now include a summary row showing the mean sequence length and mean GC content across all matched sequences. This is calculated inline by the awk block that formats the per-sequence table, adding no extra processing overhead.
